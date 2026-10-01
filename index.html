@@ -138,9 +138,9 @@ const ASET={
   "lens-cleaning-kit":["aset/pl15.jpg"]
   },
   blog:{
-  "cara-memilih-frame-sesuai-bentuk-wajah":"aset/blog/cara-memilih-frame-sesuai-bentuk-wajah.jpg",
-  "tips-merawat-lensa-kacamata":"aset/blog/tips-merawat-lensa-kacamata.jpg",
-  "softlens-atau-kacamata":"aset/blog/softlens-atau-kacamata.jpg"
+  "cara-memilih-frame-sesuai-bentuk-wajah":["aset/cara merawat kacamata dengan benar.jpg"],
+  "tips-merawat-lensa-kacamata":["aset/tips merawat lensa kacamata.jpg"],
+  "softlens-atau-kacamata":["aset/softlens atau kacamata.jpg"]
   }
 };
 const wa=m=>`https://wa.me/${WA}?text=${encodeURIComponent(m)}`;
@@ -159,9 +159,177 @@ const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const P=[];let i=0;for(const k in raw)raw[k].forEach((r,n)=>P.push({id:++i,slug:slug(r[0]),nama:r[0],kat:k,harga:r[1],desc:r[2],spek:[["Kategori",CAT[k]],["Bahan / Ukuran",r[3]],["Garansi","Sesuai ketentuan toko"]],vid:n==0?"v"+(i<4?1:i<7?2:i<10?3:4):null}));
 const V=[{id:"v1",t:"Memilih Frame yang Cocok",tp:"youtube",src:"dQw4w9WgXcQ",p:"frame-classic-round"},{id:"v2",t:"Mengenal Lensa Blue Light",tp:"youtube",src:"dQw4w9WgXcQ",p:"lensa-blue-light"},{id:"v3",t:"Cara Memakai Softlens",tp:"local",src:"aset/video/softlens.mp4",p:"softlens-harian"},{id:"v4",t:"Merawat Lensa dengan Benar",tp:"local",src:"aset/video/cairan.mp4"}];
 const POSTS=[
-{slug:"cara-memilih-frame-sesuai-bentuk-wajah",title:"Cara Memilih Frame Sesuai Bentuk Wajah",date:"2026-09-20",read:3,excerpt:"Bentuk wajah menentukan frame yang paling serasi. Ini panduan singkatnya.",html:"<p>Memilih frame bukan hanya soal tren, tetapi juga kenyamanan dan keserasian dengan wajah Anda.</p><h2>Wajah bulat</h2><p>Pilih frame persegi atau kotak untuk memberi kesan tegas.</p><h2>Wajah persegi</h2><p>Frame bulat atau oval akan melembutkan garis rahang.</p><h2>Wajah oval</h2><p>Hampir semua bentuk cocok; pilih sesuai selera dan aktivitas.</p>"},
-{slug:"tips-merawat-lensa-kacamata",title:"5 Tips Merawat Lensa Kacamata",date:"2026-09-12",read:2,excerpt:"Lensa yang terawat lebih awet dan nyaman. Simak lima kebiasaan sederhana ini.",html:"<p>Lensa yang bersih membuat pandangan lebih jelas dan mata tidak cepat lelah.</p><ul><li>Bilas dengan air sebelum diusap.</li><li>Gunakan kain mikrofiber.</li><li>Hindari tisu kasar atau ujung baju.</li><li>Simpan di case saat tidak dipakai.</li><li>Jangan letakkan lensa menghadap ke bawah.</li></ul>"},
-{slug:"softlens-atau-kacamata",title:"Softlens atau Kacamata: Mana yang Cocok?",date:"2026-09-03",read:4,excerpt:"Keduanya punya kelebihan. Kenali perbedaannya sebelum memutuskan.",html:"<p>Kacamata praktis dan minim perawatan, sedangkan softlens memberi kebebasan gerak dan penampilan natural.</p><h2>Pertimbangkan gaya hidup</h2><p>Aktif berolahraga? Softlens bisa jadi pilihan. Banyak di depan layar? Kacamata dengan filter blue light membantu.</p><p>Masih ragu? <a href=\"#/kontak\">Konsultasikan dengan kami</a>.</p>"}];
+{
+slug:"cara-merawat-kacamata-dengan-benar",
+title:"Cara Merawat Kacamata dengan Benar",
+date:"2026-10-01",
+read:4,
+excerpt:"Dengan beberapa kebiasaan sederhana, kacamata tetap bersih, nyaman, dan lebih awet. Berikut delapan caranya.",
+html:`
+<p>Kacamata merupakan salah satu benda yang digunakan setiap hari untuk membantu penglihatan. Karena sering dipakai, kacamata dapat terkena debu, minyak, keringat, dan goresan. Jika tidak dirawat dengan baik, lensa maupun bingkai kacamata bisa cepat rusak.</p>
+<p>Merawat kacamata sebenarnya tidak sulit. Dengan beberapa kebiasaan sederhana, kacamata dapat tetap bersih, nyaman digunakan, dan lebih awet. Berikut beberapa cara merawat kacamata dengan benar.</p>
+
+<h2>1. Bersihkan Lensa Secara Rutin</h2>
+<p>Lensa kacamata sebaiknya dibersihkan secara rutin, terutama ketika terlihat berdebu atau terdapat sidik jari. Gunakan air mengalir untuk membilas debu dan kotoran terlebih dahulu agar tidak menggores permukaan lensa.</p>
+<p>Setelah itu, gunakan cairan pembersih khusus kacamata dan lap dengan kain microfiber yang bersih. Hindari menggosok lensa menggunakan tisu, pakaian, atau kain yang permukaannya kasar.</p>
+
+<h2>2. Gunakan Kain Microfiber</h2>
+<p>Kain microfiber dirancang untuk membersihkan permukaan lensa tanpa mudah meninggalkan goresan. Simpan kain tersebut di tempat yang bersih dan cuci secara berkala.</p>
+<p>Hindari menggunakan kain yang sudah kotor karena debu atau partikel kecil yang menempel dapat menggores lensa saat digunakan untuk mengelap.</p>
+
+<h2>3. Jangan Membersihkan Kacamata dalam Keadaan Kering Jika Berdebu</h2>
+<p>Mengelap lensa yang dipenuhi debu secara langsung dapat menyebabkan partikel debu bergesekan dengan permukaan lensa. Sebaiknya bilas terlebih dahulu dengan air untuk menghilangkan debu, kemudian bersihkan menggunakan cairan khusus dan kain microfiber.</p>
+
+<h2>4. Simpan Kacamata di Dalam Hard Case</h2>
+<p>Ketika tidak digunakan, letakkan kacamata di dalam kotak atau hard case. Cara ini dapat melindungi kacamata dari benturan, debu, dan tekanan benda lain.</p>
+<p>Sebaiknya jangan meletakkan kacamata sembarangan di atas meja atau di dalam tas tanpa pelindung. Jika harus meletakkannya di suatu tempat, pastikan lensa menghadap ke atas dan permukaannya aman dari benda-benda yang dapat menggores.</p>
+
+<h2>5. Pegang Kacamata dengan Kedua Tangan</h2>
+<p>Saat melepas atau memakai kacamata, biasakan memegang kedua sisi gagang dengan kedua tangan. Kebiasaan ini membantu menjaga keseimbangan bingkai sehingga tidak mudah berubah bentuk.</p>
+<p>Menggunakan satu tangan secara terus-menerus dapat membuat salah satu sisi gagang lebih mudah longgar atau tidak sejajar.</p>
+
+<h2>6. Hindari Meletakkan Kacamata di Tempat yang Terlalu Panas</h2>
+<p>Paparan panas berlebihan dapat memengaruhi bahan tertentu pada lensa dan bingkai kacamata. Karena itu, hindari meninggalkan kacamata di dalam mobil yang terparkir di bawah sinar matahari atau di dekat sumber panas.</p>
+
+<h2>7. Jangan Menggunakan Bahan Pembersih Sembarangan</h2>
+<p>Tidak semua cairan pembersih aman untuk lensa kacamata. Hindari menggunakan bahan pembersih rumah tangga yang tidak diperuntukkan bagi lensa karena kandungannya dapat merusak lapisan pelindung tertentu.</p>
+<p>Gunakan air dan cairan pembersih yang memang direkomendasikan untuk kacamata.</p>
+
+<h2>8. Periksa Kondisi Kacamata Secara Berkala</h2>
+<p>Selain membersihkan lensa, perhatikan kondisi bingkai, engsel, dan bantalan hidung. Jika sekrup mulai longgar atau posisi bingkai terasa tidak nyaman, sebaiknya lakukan penyetelan di optik.</p>
+<p>Jangan memaksakan untuk membengkokkan bingkai sendiri karena dapat menyebabkan kerusakan.</p>
+
+<h2>Kesimpulan</h2>
+<p>Merawat kacamata dengan benar dapat dilakukan melalui kebiasaan sederhana, seperti membersihkan lensa secara rutin, menggunakan kain microfiber, menyimpan kacamata di dalam hard case, serta menghindarkannya dari panas dan bahan pembersih yang tidak sesuai. Dengan perawatan yang tepat, kacamata akan tetap bersih, nyaman digunakan, dan lebih tahan lama.</p>
+`
+},
+{
+slug:"tips-merawat-lensa-kacamata-agar-tetap-bersih-dan-awet",
+title:"Tips Merawat Lensa Kacamata agar Tetap Bersih dan Awet",
+date:"2026-09-27",
+read:4,
+excerpt:"Lensa yang kotor atau tergores mengganggu penglihatan. Ini sembilan tips sederhana agar lensa tetap jernih dan awet.",
+html:`
+<p>Lensa kacamata merupakan bagian penting yang perlu dirawat dengan baik. Lensa yang kotor, penuh noda, atau tergores dapat mengganggu kenyamanan saat melihat. Selain itu, kebiasaan membersihkan lensa dengan cara yang kurang tepat juga dapat menyebabkan permukaannya lebih cepat rusak.</p>
+<p>Oleh karena itu, penting untuk mengetahui cara merawat lensa kacamata yang benar. Berikut beberapa tips sederhana yang bisa dilakukan sehari-hari.</p>
+
+<h2>1. Bersihkan Lensa Secara Rutin</h2>
+<p>Debu, minyak, dan keringat dapat menempel pada lensa selama kacamata digunakan. Bersihkan lensa secara rutin agar tetap jernih dan nyaman digunakan.</p>
+<p>Sebelum membersihkan, bilas lensa dengan air bersih untuk membantu menghilangkan debu atau partikel kecil yang menempel. Setelah itu, gunakan cairan pembersih khusus kacamata dan lap dengan kain microfiber.</p>
+
+<h2>2. Gunakan Kain Microfiber</h2>
+<p>Kain microfiber merupakan pilihan yang tepat untuk membersihkan lensa kacamata. Teksturnya yang lembut membantu mengurangi risiko munculnya goresan pada permukaan lensa.</p>
+<p>Pastikan kain yang digunakan dalam keadaan bersih. Kain yang sudah kotor atau mengandung debu justru dapat membuat lensa menjadi semakin kotor dan berisiko tergores.</p>
+
+<h2>3. Hindari Mengelap Lensa dengan Sembarang Kain</h2>
+<p>Hindari membersihkan lensa menggunakan ujung pakaian, tisu, handuk, atau kain yang memiliki permukaan kasar. Meskipun terlihat praktis, bahan-bahan tersebut dapat meninggalkan serat atau membuat permukaan lensa tergores.</p>
+<p>Sebaiknya selalu sediakan kain microfiber khusus di dalam kotak kacamata.</p>
+
+<h2>4. Jangan Mengelap Lensa yang Berdebu Secara Langsung</h2>
+<p>Jika lensa terlihat berdebu, jangan langsung menggosoknya menggunakan kain. Partikel debu yang berada di permukaan lensa dapat bergesekan dengan lensa saat dilap.</p>
+<p>Bilas terlebih dahulu dengan air bersih, kemudian bersihkan menggunakan cairan pembersih dan kain microfiber.</p>
+
+<h2>5. Gunakan Cairan Pembersih Khusus Kacamata</h2>
+<p>Untuk mendapatkan hasil pembersihan yang optimal, gunakan cairan yang memang dibuat untuk lensa kacamata. Hindari menggunakan cairan pembersih rumah tangga atau bahan lain yang tidak ditujukan untuk lensa.</p>
+<p>Jika ragu mengenai produk pembersih yang aman, tanyakan kepada optik tempat Anda membeli kacamata.</p>
+
+<h2>6. Simpan Kacamata dengan Benar</h2>
+<p>Saat tidak digunakan, simpan kacamata di dalam hard case atau tempat kacamata. Cara ini membantu melindungi lensa dari debu, benturan, dan goresan.</p>
+<p>Jangan meletakkan kacamata begitu saja di dalam tas karena dapat tertindih atau bergesekan dengan benda lain.</p>
+
+<h2>7. Hindari Suhu yang Terlalu Panas</h2>
+<p>Jangan meninggalkan kacamata di tempat dengan suhu sangat tinggi, seperti dashboard mobil yang terkena sinar matahari langsung. Panas berlebihan dapat memengaruhi beberapa jenis lensa maupun lapisan pada permukaannya.</p>
+<p>Simpan kacamata di tempat yang sejuk dan terlindung ketika sedang tidak digunakan.</p>
+
+<h2>8. Pegang Kacamata dengan Hati-Hati</h2>
+<p>Saat membersihkan atau melepas kacamata, pegang bagian bingkai dengan hati-hati. Hindari terlalu sering menyentuh permukaan lensa menggunakan jari karena minyak dari tangan dapat meninggalkan noda.</p>
+<p>Jika lensa terkena sidik jari, segera bersihkan menggunakan cara yang tepat.</p>
+
+<h2>9. Periksa Kondisi Lensa Secara Berkala</h2>
+<p>Perhatikan apakah terdapat goresan, perubahan lapisan, atau kerusakan pada lensa. Jika muncul masalah yang mengganggu penglihatan atau kenyamanan, sebaiknya periksakan kacamata ke optik.</p>
+<p>Jangan mencoba menghilangkan goresan pada lensa menggunakan bahan atau metode rumahan yang tidak direkomendasikan.</p>
+
+<h2>Kesimpulan</h2>
+<p>Merawat lensa kacamata tidak membutuhkan cara yang rumit. Membersihkan lensa secara rutin, menggunakan kain microfiber, menghindari bahan pembersih sembarangan, serta menyimpan kacamata di tempat yang aman dapat membantu menjaga kondisi lensa.</p>
+<p>Dengan perawatan yang tepat, lensa kacamata dapat tetap bersih, jernih, dan nyaman digunakan dalam aktivitas sehari-hari.</p>
+`
+},
+{
+slug:"softlens-atau-kacamata-mana-yang-lebih-cocok",
+title:"Softlens atau Kacamata? Mana yang Lebih Cocok?",
+date:"2026-09-24",
+read:5,
+excerpt:"Kacamata dan softlens punya kelebihan masing-masing. Kenali perbedaannya agar pilihan sesuai kebutuhan dan aktivitas Anda.",
+html:`
+<p>Bagi orang yang membutuhkan alat bantu penglihatan, kacamata dan softlens merupakan dua pilihan yang umum digunakan. Keduanya memiliki kelebihan dan kekurangan masing-masing. Namun, memilih antara softlens atau kacamata sebaiknya disesuaikan dengan kebutuhan, kenyamanan, aktivitas sehari-hari, serta kemampuan dalam merawatnya.</p>
+<p>Lantas, mana yang lebih cocok, softlens atau kacamata? Berikut penjelasannya.</p>
+
+<h2>Kacamata: Praktis dan Mudah Dirawat</h2>
+<p>Kacamata menjadi pilihan yang praktis untuk digunakan sehari-hari. Pengguna cukup mengenakannya tanpa perlu menyentuh mata secara langsung. Kacamata juga mudah dilepas dan dipasang kapan saja.</p>
+<p>Selain membantu penglihatan, kacamata kini tersedia dalam berbagai bentuk dan desain sehingga dapat menjadi bagian dari penampilan. Namun, kacamata bisa terasa kurang praktis saat melakukan aktivitas tertentu, seperti olahraga, karena dapat bergeser atau berisiko terjatuh.</p>
+
+<h3>Kelebihan kacamata</h3>
+<ul>
+<li>Mudah digunakan dan dilepas.</li>
+<li>Tidak bersentuhan langsung dengan mata.</li>
+<li>Perawatannya relatif sederhana.</li>
+<li>Dapat menjadi aksesori untuk menunjang penampilan.</li>
+<li>Tidak membutuhkan rutinitas khusus sebelum memasangnya.</li>
+</ul>
+
+<h3>Kekurangan kacamata</h3>
+<ul>
+<li>Dapat berembun ketika berada di lingkungan tertentu.</li>
+<li>Bisa bergeser saat melakukan aktivitas fisik.</li>
+<li>Bingkai dapat terasa mengganggu bagi sebagian orang.</li>
+<li>Lensa dapat tergores jika tidak dirawat dengan baik.</li>
+</ul>
+
+<h2>Softlens: Lebih Praktis untuk Aktivitas Tertentu</h2>
+<p>Softlens atau lensa kontak digunakan langsung pada permukaan mata. Karena tidak menggunakan bingkai, softlens dapat memberikan bidang pandang yang lebih bebas dan tidak mengubah penampilan seperti penggunaan kacamata.</p>
+<p>Softlens juga dapat menjadi pilihan bagi orang yang merasa kurang nyaman menggunakan kacamata ketika berolahraga atau menghadiri kegiatan tertentu. Namun, penggunaannya membutuhkan perhatian lebih terhadap kebersihan dan cara pemakaian.</p>
+
+<h3>Kelebihan softlens</h3>
+<ul>
+<li>Tidak menggunakan bingkai sehingga penampilan wajah tetap terlihat seperti biasa.</li>
+<li>Tidak mudah bergeser ketika digunakan dengan benar.</li>
+<li>Dapat terasa lebih praktis untuk aktivitas tertentu.</li>
+<li>Tersedia dalam berbagai jenis dan pilihan sesuai kebutuhan penglihatan.</li>
+</ul>
+
+<h3>Kekurangan softlens</h3>
+<ul>
+<li>Membutuhkan kebersihan tangan dan perawatan yang baik.</li>
+<li>Penggunaan yang tidak tepat dapat menyebabkan masalah pada mata.</li>
+<li>Perlu mengikuti aturan penggunaan dan penggantian sesuai jenis softlens.</li>
+<li>Sebagian orang mungkin merasa kurang nyaman ketika pertama kali menggunakannya.</li>
+</ul>
+
+<h2>Softlens atau Kacamata, Mana yang Lebih Cocok?</h2>
+<p>Tidak ada satu pilihan yang cocok untuk semua orang. Kacamata dapat menjadi pilihan bagi orang yang mengutamakan kepraktisan dan kemudahan perawatan. Sementara itu, softlens dapat dipertimbangkan oleh orang yang membutuhkan kebebasan dari bingkai saat melakukan aktivitas tertentu dan bersedia melakukan perawatan dengan lebih teliti.</p>
+<div style="overflow-x:auto">
+<table>
+<thead><tr><th>Pertimbangan</th><th>Kacamata</th><th>Softlens</th></tr></thead>
+<tbody>
+<tr><td>Kemudahan penggunaan</td><td>Relatif mudah</td><td>Membutuhkan penyesuaian</td></tr>
+<tr><td>Perawatan</td><td>Sederhana</td><td>Membutuhkan perhatian lebih</td></tr>
+<tr><td>Aktivitas olahraga</td><td>Bisa kurang praktis</td><td>Dapat lebih praktis untuk aktivitas tertentu</td></tr>
+<tr><td>Penampilan</td><td>Menjadi bagian dari penampilan</td><td>Tidak menggunakan bingkai</td></tr>
+<tr><td>Kebersihan</td><td>Relatif mudah dijaga</td><td>Harus sangat diperhatikan</td></tr>
+<tr><td>Kenyamanan</td><td>Bergantung pada bentuk bingkai</td><td>Bergantung pada kecocokan dengan mata</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Bisa Menggunakan Keduanya</h2>
+<p>Tidak harus memilih salah satu untuk semua situasi. Sebagian orang menggunakan kacamata untuk aktivitas sehari-hari dan softlens pada kesempatan tertentu.</p>
+<p>Yang terpenting adalah memastikan alat bantu penglihatan yang digunakan sesuai dengan kebutuhan dan kondisi mata. Untuk softlens, pemilihan jenis dan penggunaannya sebaiknya mengikuti rekomendasi profesional kesehatan mata atau optik yang kompeten.</p>
+
+<h2>Kesimpulan</h2>
+<p>Softlens atau kacamata sama-sama dapat menjadi pilihan untuk membantu penglihatan, tetapi masing-masing memiliki karakteristik yang berbeda. Kacamata menawarkan kepraktisan dan perawatan yang relatif mudah, sedangkan softlens memberikan kebebasan dari bingkai dan dapat lebih sesuai untuk aktivitas tertentu.</p>
+<p>Sebelum menentukan pilihan, pertimbangkan kebutuhan sehari-hari, kenyamanan, aktivitas, serta kemampuan merawatnya. Dengan memilih dan menggunakan alat bantu penglihatan secara tepat, Anda dapat tetap nyaman beraktivitas sekaligus menjaga kesehatan mata.</p>
+`
+}];
 const fd=d=>new Date(d).toLocaleDateString("id-ID",{dateStyle:"long"});
 const $=s=>document.querySelector(s),app=$("#app");
 let cat=null,pending=null;
