@@ -61,7 +61,6 @@ table{border-collapse:collapse;width:100%;margin:1rem 0}td{padding:.5rem 0;borde
 .pg{display:flex;gap:.5rem;justify-content:center;margin-top:2rem}
 .map{border:0;width:100%;height:16rem;border-radius:16px;background:var(--bg2)}
 footer{margin-top:6rem;background:var(--bg2);border-top:1px solid var(--line);padding:2rem 0;font-size:.85rem;color:var(--mut)}
-.fab{position:fixed;right:1.2rem;bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));z-index:40;box-shadow:0 4px 14px rgba(0,0,0,.25);border-radius:99px;padding:.75rem 1.3rem}
 @media(max-width:860px){.hero,.pd{grid-template-columns:1fr}.hero h1{font-size:2.1rem}.grid,.cats{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr}.g2{grid-template-columns:1fr}
 #burger{display:block}.menu{display:none;position:absolute;left:0;right:0;top:4rem;background:var(--bg);flex-direction:column;align-items:stretch;padding:1rem;gap:.5rem;border-bottom:1px solid var(--line)}.menu.open{display:flex}}
 </style>
@@ -76,7 +75,6 @@ footer{margin-top:6rem;background:var(--bg2);border-top:1px solid var(--line);pa
 </div></nav></header>
 <main id="app" class="w"></main>
 <footer><div class="w">© <span id="yr"></span> Yuiop Optik. Semua hak dilindungi.</div></footer>
-<a class="btn b-wa fab wal" target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp">WhatsApp</a>
 
 <script>
 /* =====================================================================
@@ -144,7 +142,7 @@ const fd=d=>new Date(d).toLocaleDateString("id-ID",{dateStyle:"long"});
 const $=s=>document.querySelector(s),app=$("#app");
 let cat=null,pending=null;
 
-const pcard=p=>`<article class="card"><a href="#/produk/${p.slug}">${img(gp(p)[0],p.nama,"ph",'loading="lazy"')}</a><div class="cb"><span class="k">${CAT[p.kat]}</span><h3><a href="#/produk/${p.slug}">${p.nama}</a></h3><p>Mulai dari ${rp(p.harga)}</p><a class="btn b-wa" style="margin-top:.8rem" target="_blank" rel="noopener noreferrer" href="${wa(`Halo Yuiop, saya tertarik dengan ${p.nama} (${CAT[p.kat]}). Apakah masih tersedia?`)}">Pesan via WhatsApp</a></div></article>`;
+const pcard=p=>`<article class="card"><a href="#/produk/${p.slug}">${img(gp(p)[0],p.nama,"ph",'loading="lazy"')}</a><div class="cb"><span class="k">${CAT[p.kat]}</span><h3><a href="#/produk/${p.slug}">${p.nama}</a></h3><p>Mulai dari ${rp(p.harga)}</p></div></article>`;
 const vcard=v=>`<div><div class="vid" data-v="${v.id}" role="button" tabindex="0" aria-label="Putar ${v.t}">${img(ASET.video[v.id],v.t,"",'loading="lazy"')}<div class="play"><span>▶</span></div></div><p style="margin:.5rem 0 0;font-weight:600;color:var(--hd)">${v.t}</p>${v.p?`<a class="meta" style="color:var(--ac)" href="#/produk/${v.p}">Lihat produk →</a>`:""}</div>`;
 const postc=p=>`<a class="card" href="#/blog/${p.slug}">${img(ASET.blog[p.slug],"Sampul "+p.title,"ph",'loading="lazy"')}<div class="cb"><span class="meta">${fd(p.date)} · ${p.read} menit baca</span><h3>${p.title}</h3><p>${p.excerpt}</p></div></a>`;
 const list=()=>(cat?P.filter(p=>p.kat==cat):P).map(pcard).join("");
