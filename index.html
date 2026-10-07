@@ -391,6 +391,7 @@ const vidProfil=()=>{
   return `<section class="vid"><h2>Profil Yuiop Optik</h2><p class="sub">Kenali kami lebih dekat.</p><div class="vid-box">${inner}</div></section>`;
 };
 function home(){const ft=Object.keys(CAT).map(k=>P.find(p=>p.kat==k));return `
+${vidProfil()}
 <section class="hero"><div><h1>Lihat lebih jelas, tampil lebih percaya diri.</h1><p>Frame, lensa, softlens, dan perawatan lensa pilihan dari Yuiop. Konsultasi dan pesan langsung lewat WhatsApp.</p><div class="row"><a class="btn b-ac" href="#/produk" data-c="null">Lihat Produk</a><a class="btn b-wa wal" target="_blank" rel="noopener noreferrer">Chat WhatsApp</a></div></div>${img(ASET.hero,"Kacamata koleksi Yuiop","ph")}</section>
 <section class="sec"><h2>Kategori Produk</h2><p class="sub">Pilih kategori untuk langsung melihat produknya.</p><div class="cats">${Object.entries(CAT).map(([k,l])=>`<a class="cat" href="#/produk" data-c="${k}">${l}</a>`).join("")}</div></section>
 <section class="sec"><h2>Produk Unggulan</h2><p class="sub">Pilihan favorit dari tiap kategori.</p><div class="grid">${ft.map(pcard).join("")}</div><p style="margin-top:1.5rem"><a class="btn b-ln" href="#/produk" data-c="null">Lihat semua produk →</a></p></section>
