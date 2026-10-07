@@ -45,10 +45,6 @@ nav{display:flex;align-items:center;justify-content:space-between;height:4rem}
 .cb{padding:1rem;display:flex;flex-direction:column;flex:1;gap:.25rem}
 .k{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ac);font-weight:600}
 .cb .btn{margin-top:auto}.cb p{margin:0;font-size:.85rem;color:var(--mut)}
-.vid{position:relative;cursor:pointer;background:#000;border-radius:16px;overflow:hidden;aspect-ratio:16/9}
-.vid img,.vid iframe,.vid video{width:100%;height:100%;object-fit:cover;border:0}
-.play{position:absolute;inset:0;display:grid;place-items:center}
-.play span{background:rgba(255,255,255,.9);color:#111;border-radius:50%;width:3rem;height:3rem;display:grid;place-items:center}
 .g3{display:grid;gap:1.5rem;grid-template-columns:repeat(3,1fr)}
 .g2{display:grid;gap:1.5rem;grid-template-columns:repeat(2,1fr)}
 .meta{font-size:.8rem;color:var(--mut)}
@@ -184,8 +180,7 @@ lensa:[["Lensa Blue Light",200000,"Filter cahaya biru dari layar gadget.","Indek
 softlens:[["Softlens Harian",60000,"Sekali pakai, praktis dan higienis.","1 hari"],["Softlens Bulanan",90000,"Nyaman dipakai hingga sebulan.","30 hari"],["Softlens Warna",120000,"Pilihan warna natural untuk gaya harian.","30 hari"]],
 cairan:[["Cairan Pembersih Lensa 60ml",15000,"Bebas noda dan sidik jari.","60 ml"],["Multipurpose Solution 120ml",45000,"All-in-one untuk softlens.","120 ml"],["Lens Cleaning Kit",35000,"Cairan, kain mikrofiber, dan pouch.","Set"]]};
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
-const P=[];let i=0;for(const k in raw)raw[k].forEach((r,n)=>P.push({id:++i,slug:slug(r[0]),nama:r[0],kat:k,harga:r[1],desc:r[2],spek:[["Kategori",CAT[k]],["Bahan / Ukuran",r[3]],["Garansi","Sesuai ketentuan toko"]],vid:n==0?"v"+(i<4?1:i<7?2:i<10?3:4):null}));
-const V=[{id:"v1",t:"Memilih Frame yang Cocok",tp:"youtube",src:"dQw4w9WgXcQ",p:"frame-classic-round"},{id:"v2",t:"Mengenal Lensa Blue Light",tp:"youtube",src:"dQw4w9WgXcQ",p:"lensa-blue-light"},{id:"v3",t:"Cara Memakai Softlens",tp:"local",src:"aset/video/softlens.mp4",p:"softlens-harian"},{id:"v4",t:"Merawat Lensa dengan Benar",tp:"local",src:"aset/video/cairan.mp4"}];
+const P=[];let i=0;for(const k in raw)raw[k].forEach((r,n)=>P.push({id:++i,slug:slug(r[0]),nama:r[0],kat:k,harga:r[1],desc:r[2],spek:[["Kategori",CAT[k]],["Bahan / Ukuran",r[3]],["Garansi","Sesuai ketentuan toko"]]}));
 const POSTS=[
 {
 slug:"cara-merawat-kacamata-dengan-benar",
@@ -374,8 +369,7 @@ const tcard=t=>`<article class="tc"><div class="tc-h"><img class="av" src="${t.f
 const testimoniPage=()=>`<h1 class="pt">Testimoni</h1><p class="sub">Cerita kepuasan pelanggan Yuiop.</p><div class="g3">${TESTI.map(tcard).join("")}</div><section class="sec" style="text-align:center;padding:2.5rem 1rem;border-radius:16px;background:var(--bg2)"><h2>Ingin merasakan pelayanan kami?</h2><p class="sub">Konsultasikan kebutuhan kacamata Anda bersama kami.</p><a class="btn b-wa wal" target="_blank" rel="noopener noreferrer">Konsultasi via WhatsApp</a></section>`;
 let cat=null,pending=null;
 
-const pcard=p=>`<article class="card"><a href="#/produk/${p.slug}">${img(gp(p)[0],p.nama,"ph",'loading="lazy"')}</a><div class="cb"><span class="k">${CAT[p.kat]}</span><h3><a href="#/produk/${p.slug}">${p.nama}</a></h3> ${rp(p.harga)}</p></div></article>`;
-const vcard=v=>`<div><div class="vid" data-v="${v.id}" role="button" tabindex="0" aria-label="Putar ${v.t}">${img(ASET.video&&ASET.video[v.id],v.t,"",'loading="lazy"')}<div class="play"><span>▶</span></div></div><p style="margin:.5rem 0 0;font-weight:600;color:var(--hd)">${v.t}</p>${v.p?`<a class="meta" style="color:var(--ac)" href="#/produk/${v.p}">Lihat produk →</a>`:""}</div>`;
+const pcard=p=>`<article class="card"><a href="#/produk/${p.slug}">${img(gp(p)[0],p.nama,"ph",'loading="lazy"')}</a><div class="cb"><span class="k">${CAT[p.kat]}</span><h3><a href="#/produk/${p.slug}">${p.nama}</a></h3><p>${rp(p.harga)}</p></div></article>`;
 const postc=p=>`<a class="card" href="#/blog/${p.slug}">${img(ASET.blog[p.slug],"Sampul "+p.title,"ph",'loading="lazy"')}<div class="cb"><span class="meta">${fd(p.date)} · ${p.read} menit baca</span><h3>${p.title}</h3><p>${p.excerpt}</p></div></a>`;
 const list=()=>(cat?P.filter(p=>p.kat==cat):P).map(pcard).join("");
 const tabs=()=>[[null,"Semua"],...Object.entries(CAT)].map(([k,l])=>`<button class="tab${cat==k?" on":""}" data-c="${k}">${l}</button>`).join("");
@@ -392,8 +386,8 @@ const kontakPage=()=>`<h1 class="pt">Tentang & Kontak</h1><p class="sub" style="
 <div class="g3" style="margin-bottom:3rem"><div class="tag"><h3>Produk pilihan</h3><span class="meta">Frame, lensa, dan softlens yang kami seleksi untuk kenyamanan harian.</span></div><div class="tag"><h3>Konsultasi ramah</h3><span class="meta">Tanya dulu lewat WhatsApp, tanpa kewajiban membeli.</span></div><div class="tag"><h3>Pesan mudah</h3><span class="meta">Klik tombol WhatsApp di produk, pesan otomatis terisi.</span></div></div>
 <div class="g2"><div><table><tr><td>Alamat</td><td>${TOKO.alamat}</td></tr><tr><td>Jam buka</td><td>${TOKO.jam}</td></tr><tr><td>WhatsApp</td><td>+${WA}</td></tr><tr><td>Instagram</td><td>${TOKO.instagram}</td></tr></table><a class="btn b-wa wal" target="_blank" rel="noopener noreferrer">Chat WhatsApp</a></div><iframe class="map" title="Lokasi Yuiop" loading="lazy" src="https://www.google.com/maps?q=${encodeURIComponent(TOKO.maps)}&output=embed"></iframe></div>`;
 
-function detail(s){const p=P.find(x=>x.slug==s);if(!p)return nf();const v=V.find(x=>x.p==p.slug);
-return `<div class="pd"><div style="display:grid;gap:1rem;align-content:start">${(gp(p).length?gp(p):[""]).map((g,i)=>img(g,p.nama+" foto "+(i+1),"ph")).join("")}</div><div><span class="k">${CAT[p.kat]}</span><h1 style="font-size:2rem;margin:.3rem 0 1rem">${p.nama}</h1><p>${p.desc}</p><p class="meta" style="margin:1.2rem 0 0"></p><div class="price">${rp(p.harga)}</div><table>${p.spek.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table><a class="btn b-wa wf" data-p="${p.nama} (${CAT[p.kat]})" style="width:100%;padding:.9rem" target="_blank" rel="noopener noreferrer" href="${wa(`Halo Yuiop, saya tertarik dengan ${p.nama} (${CAT[p.kat]}). Apakah masih tersedia?`)}">Pesan via WhatsApp</a></div></div>${v?`<section class="sec"><h2>Video Produk</h2><div style="max-width:32rem">${vcard(v)}</div></section>`:""}<p style="margin-top:2rem"><a class="btn b-ln" href="#/produk">← Kembali</a></p>`}
+function detail(s){const p=P.find(x=>x.slug==s);if(!p)return nf();
+return `<div class="pd"><div style="display:grid;gap:1rem;align-content:start">${(gp(p).length?gp(p):[""]).map((g,i)=>img(g,p.nama+" foto "+(i+1),"ph")).join("")}</div><div><span class="k">${CAT[p.kat]}</span><h1 style="font-size:2rem;margin:.3rem 0 1rem">${p.nama}</h1><p>${p.desc}</p><p class="meta" style="margin:1.2rem 0 0"></p><div class="price">${rp(p.harga)}</div><table>${p.spek.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table><a class="btn b-wa wf" data-p="${p.nama} (${CAT[p.kat]})" style="width:100%;padding:.9rem" target="_blank" rel="noopener noreferrer" href="${wa(`Halo Yuiop, saya tertarik dengan ${p.nama} (${CAT[p.kat]}). Apakah masih tersedia?`)}">Pesan via WhatsApp</a></div></div><p style="margin-top:2rem"><a class="btn b-ln" href="#/produk">← Kembali</a></p>`}
 
 function blog(pg){const n=6,tot=Math.ceil(POSTS.length/n),c=Math.min(Math.max(+pg||1,1),tot);const s=[...POSTS].sort((a,b)=>b.date.localeCompare(a.date)).slice((c-1)*n,c*n);
 return `<h1 style="margin-top:3rem;font-size:2rem">Blog</h1><p class="sub">Tips dan panduan seputar kacamata.</p><div class="g3">${s.map(postc).join("")}</div>${tot>1?`<div class="pg">${Array.from({length:tot},(_,i)=>`<a class="btn ${i+1==c?"b-ac":"b-ln"}" href="#/blog/hal/${i+1}">${i+1}</a>`).join("")}</div>`:""}`}
@@ -417,9 +411,7 @@ if(w){e.preventDefault();$("#menu").classList.remove("open");openForm(w.dataset.
 const z=e.target.closest("[data-z]");if(z){$("#lbi").src=z.src;$("#lbi").alt=z.alt;$("#lb").showModal();return}
 const c=e.target.closest("[data-c]");if(c){cat=c.dataset.c=="null"?null:c.dataset.c;const l=$("#plist");if(l){l.innerHTML=list();$("#tabs").innerHTML=tabs()}}
 const s=e.target.closest("[data-s]");if(s){e.preventDefault();if(isHome())go(s.dataset.s);else{pending=s.dataset.s;location.hash="#/"}$("#menu").classList.remove("open")}
-const v=e.target.closest("[data-v]");if(v&&!v.querySelector("iframe,video")){const x=V.find(y=>y.id==v.dataset.v);v.innerHTML=x.tp=="youtube"?`<iframe src="https://www.youtube-nocookie.com/embed/${x.src}?autoplay=1" title="${x.t}" allow="autoplay;encrypted-media" allowfullscreen></iframe>`:`<video src="${x.src}" controls autoplay></video>`}
 if(e.target.id=="copy"){try{navigator.clipboard.writeText(location.href);e.target.textContent="Tersalin ✓"}catch(_){e.target.textContent="Salin manual dari address bar"}}});
-document.addEventListener("keydown",e=>{if((e.key=="Enter"||e.key==" ")&&e.target.dataset&&e.target.dataset.v){e.preventDefault();e.target.click()}});
 const dlg=$("#fm"),frm=$("#wf");
 let order="";
 function openForm(prod){
