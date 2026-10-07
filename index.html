@@ -357,7 +357,7 @@ const TESTI=[
 {nama:"Anita Wulandari",kota:"Klaten",foto:"aset/testimoni/anita.jpg",rating:5,produk:"Lensa Progresif",teks:"Awalnya ragu pakai lensa progresif, tapi dibantu penyesuaian sampai nyaman. Terima kasih banyak."}
 ];
 const stars=n=>"★".repeat(n)+"☆".repeat(5-n);
-const tcard=t=>`<article class="tc"><div class="tc-h"><img class="av" src="${t.foto||PHU}" alt="Foto ${t.nama}" loading="lazy" onerror="this.onerror=null;this.src=PHU"><div><h3>${t.nama}</h3><span class="meta">${t.kota}</span></div></div><div class="st" role="img" aria-label="Rating ${t.rating} dari 5">${stars(t.rating)}</div><p>“${t.teks}”</p><span class="k">${t.produk}</span></article>`;
+const tcard=t=>`<article class="tc"><div class="tc-h"><img class="av" src="${t.foto||PHU}" alt="Foto ${t.nama}" loading="lazy" onerror="this.onerror=null;this.src=PHU"><div><h3>${t.nama}</h3><span class="meta">${t.kota}</span></div></div><div class="st" role="img" aria-label="Rating ${t.rating} dari 5">${stars(t.rating)}</div>${t.fp&&t.fp.length?`<div class="tp">${t.fp.map((f,n)=>img(f,"Foto "+t.produk+" milik "+t.nama+" "+(n+1),"",'loading="lazy" data-z="1"')).join("")}</div><span class="tpl">Foto asli produk yang dibeli</span>`:""}<p>“${t.teks}”</p><span class="k">${t.produk}</span></article>`;
 const testimoniPage=()=>`<h1 class="pt">Testimoni</h1><p class="sub">Cerita kepuasan pelanggan Yuiop.</p><div class="g3">${TESTI.map(tcard).join("")}</div><section class="sec" style="text-align:center;padding:2.5rem 1rem;border-radius:16px;background:var(--bg2)"><h2>Ingin merasakan pelayanan kami?</h2><p class="sub">Konsultasikan kebutuhan kacamata Anda bersama kami.</p><a class="btn b-wa wal" target="_blank" rel="noopener noreferrer">Konsultasi via WhatsApp</a></section>`;
 let cat=null,pending=null;
 
@@ -398,7 +398,7 @@ if(pending){go(pending);pending=null}else if(!h[0]||h[0]=="")window.scrollTo(0,0
 function go(id){if(id=="top")return window.scrollTo({top:0,behavior:"smooth"});const e=document.getElementById(id);e&&e.scrollIntoView({behavior:"smooth"})}
 const isHome=()=>!location.hash.replace(/^#\/?/,"");
 
-document.addEventListener("click",e=>{const w=e.target.closest(".wal,.wf");if(w){e.preventDefault();$("#menu").classList.remove("open");openForm(w.dataset.p);return}
+document.addEventListener("click",e=>{const z=e.target.closest("[data-z]");if(z){$("#lbi").src=z.src;$("#lbi").alt=z.alt;$("#lb").showModal();return}
 const c=e.target.closest("[data-c]");if(c){cat=c.dataset.c=="null"?null:c.dataset.c;const l=$("#plist");if(l){l.innerHTML=list();$("#tabs").innerHTML=tabs()}}
 const s=e.target.closest("[data-s]");if(s){e.preventDefault();if(isHome())go(s.dataset.s);else{pending=s.dataset.s;location.hash="#/"}$("#menu").classList.remove("open")}
 const v=e.target.closest("[data-v]");if(v&&!v.querySelector("iframe,video")){const x=V.find(y=>y.id==v.dataset.v);v.innerHTML=x.tp=="youtube"?`<iframe src="https://www.youtube-nocookie.com/embed/${x.src}?autoplay=1" title="${x.t}" allow="autoplay;encrypted-media" allowfullscreen></iframe>`:`<video src="${x.src}" controls autoplay></video>`}
@@ -421,6 +421,7 @@ frm.addEventListener("submit",e=>{
   window.open(wa(t.join("\n")),"_blank","noopener");
   dlg.close()});
 $("#fcancel").onclick=()=>dlg.close();
+$("#lb").addEventListener("click",()=>$("#lb").close());
 dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
 $("#burger").onclick=()=>{const m=$("#menu");const o=m.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o)};
 $("#yr").textContent=new Date().getFullYear();
