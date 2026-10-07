@@ -83,6 +83,12 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 #lb img{width:100%;max-height:85vh;object-fit:contain;border-radius:16px;cursor:zoom-out}
 @media(max-width:860px){.hero,.pd{grid-template-columns:1fr}.hero h1{font-size:2.1rem}.grid,.cats{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr}.g2{grid-template-columns:1fr}
 #burger{display:block}.menu{display:none;position:absolute;left:0;right:0;top:4rem;background:var(--bg);flex-direction:column;align-items:stretch;padding:1rem;gap:.5rem;border-bottom:1px solid var(--line)}.menu.open{display:flex}}
+[hidden]{display:none!important}
+#pay{padding:1.5rem;display:grid;gap:1rem}
+#pay .qr{width:100%;max-width:16rem;margin:0 auto;aspect-ratio:1/1;object-fit:contain;background:#fff;border-radius:12px}
+#pay .bk{display:flex;justify-content:space-between;align-items:center;gap:.5rem;padding:.6rem .8rem;border:1px solid var(--line);border-radius:12px;font-size:.85rem}
+#pay .bk b{color:var(--hd);font-size:1rem;letter-spacing:.03em}
+#pay .bk button{padding:.3rem .7rem;font-size:.8rem}
 </style>
 </head>
 <body>
@@ -111,6 +117,7 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 <button type="submit" class="btn b-wa">Lanjut ke WhatsApp</button>
 </div>
 </form>
+<div id="pay" hidden></div>
 </dialog> <dialog id="lb" aria-label="Foto produk diperbesar"><img id="lbi" alt=""></dialog>
 <script>
 /* =====================================================================
@@ -133,6 +140,13 @@ const TOKO={
   maps:"Surakarta"               // kata kunci lokasi untuk Google Maps
 };
 const WA=TOKO.wa;
+const BAYAR={
+  qris:"aset/qris.jpg",              // gambar QRIS toko
+  bank:[
+    {b:"BCA",no:"1234567890",an:"Nama Pemilik"},
+    {b:"BRI",no:"0987654321",an:"Nama Pemilik"}
+  ]
+};
 const ASET={
   hero:"aset/yo.jpg",
   produk:{
@@ -408,11 +422,30 @@ const v=e.target.closest("[data-v]");if(v&&!v.querySelector("iframe,video")){con
 if(e.target.id=="copy"){try{navigator.clipboard.writeText(location.href);e.target.textContent="Tersalin ✓"}catch(_){e.target.textContent="Salin manual dari address bar"}}});
 document.addEventListener("keydown",e=>{if((e.key=="Enter"||e.key==" ")&&e.target.dataset&&e.target.dataset.v){e.preventDefault();e.target.click()}});
 const dlg=$("#fm"),frm=$("#wf");
+let order="";
 function openForm(prod){
   $("#fprod").textContent=prod?"Produk: "+prod:"";$("#fprod").hidden=!prod;
-  frm.reset();frm.dataset.prod=prod||"";
+  frm.reset();frm.dataset.prod=prod||"";frm.hidden=false;$("#pay").hidden=true;
   if(prod)frm.keperluan.value="Pembelian barang";
   dlg.showModal()}
+function showPay(pr){
+  frm.hidden=true;const p=$("#pay");p.hidden=false;
+  p.innerHTML=`<h3>Pembayaran</h3>
+  ${pr?`<p class="meta" style="margin:0">Produk: ${pr}</p>`:""}
+  <p class="meta" style="margin:0">Untuk lensa atau frame berlensa, total bergantung pada resep. Silakan tanya total dulu sebelum membayar.</p>
+  ${img(BAYAR.qris,"QRIS Yuiop Optik","qr")}
+  <p class="meta" style="margin:0;text-align:center">Scan QRIS di atas, atau transfer ke:</p>
+  ${BAYAR.bank.map(x=>`<div class="bk"><div>${x.b}<br><b>${x.no}</b><br><span class="meta">a.n. ${x.an}</span></div><button type="button" class="btn b-ln" data-copy="${x.no}">Salin</button></div>`).join("")}
+  <button type="button" class="btn b-wa" data-act="paid" style="padding:.8rem">Saya sudah bayar, kirim bukti</button>
+  <button type="button" class="btn b-ln" data-act="ask">Tanya total dulu</button>
+  <button type="button" class="btn b-ln" data-act="back">← Ubah data</button>`}
+$("#pay").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.copy){try{navigator.clipboard.writeText(b.dataset.copy);b.textContent="Tersalin ✓"}catch(_){b.textContent="Salin manual"}return}
+  const a=b.dataset.act;
+  if(a=="back"){$("#pay").hidden=true;frm.hidden=false}
+  if(a=="paid"){window.open(wa(order+"\n\nSaya sudah melakukan pembayaran. Bukti transfer saya kirim di chat ini."),"_blank","noopener");dlg.close()}
+  if(a=="ask"){window.open(wa(order+"\n\nMohon info total pembayarannya sebelum saya bayar."),"_blank","noopener");dlg.close()}});
 frm.addEventListener("submit",e=>{
   e.preventDefault();const f=new FormData(frm),pr=frm.dataset.prod;
   const t=["Halo Yuiop, berikut data saya:","",
@@ -421,8 +454,9 @@ frm.addEventListener("submit",e=>{
     "Alamat: "+f.get("alamat").trim(),
     "Keperluan: "+f.get("keperluan")];
   if(pr)t.push("Produk: "+pr);
-  window.open(wa(t.join("\n")),"_blank","noopener");
-  dlg.close()});
+  order=t.join("\n");
+  if(f.get("keperluan")=="Pembelian barang")showPay(pr);
+  else{window.open(wa(order),"_blank","noopener");dlg.close()}});
 $("#fcancel").onclick=()=>dlg.close();
 $("#lb").addEventListener("click",()=>$("#lb").close());
 dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
