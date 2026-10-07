@@ -383,7 +383,13 @@ const pcard=p=>`<article class="card"><a href="#/produk/${p.slug}">${img(gp(p)[0
 const postc=p=>`<a class="card" href="#/blog/${p.slug}">${img(ASET.blog[p.slug],"Sampul "+p.title,"ph",'loading="lazy"')}<div class="cb"><span class="meta">${fd(p.date)} · ${p.read} menit baca</span><h3>${p.title}</h3><p>${p.excerpt}</p></div></a>`;
 const list=()=>(cat?P.filter(p=>p.kat==cat):P).map(pcard).join("");
 const tabs=()=>[[null,"Semua"],...Object.entries(CAT)].map(([k,l])=>`<button class="tab${cat==k?" on":""}" data-c="${k}">${l}</button>`).join("");
-
+const vidProfil=()=>{
+  const v=VIDEO_PROFIL;
+  const inner=v.tipe=="youtube"
+    ?`<iframe src="https://www.youtube.com/embed/${v.yt}?rel=0" title="Video profil Yuiop Optik" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>`
+    :`<video controls playsinline preload="metadata" poster="${v.poster}"><source src="${v.src}" type="video/mp4"></video>`;
+  return `<section class="vid"><h2>Profil Yuiop Optik</h2><p class="sub">Kenali kami lebih dekat.</p><div class="vid-box">${inner}</div></section>`;
+};
 function home(){const ft=Object.keys(CAT).map(k=>P.find(p=>p.kat==k));return `
 <section class="hero"><div><h1>Lihat lebih jelas, tampil lebih percaya diri.</h1><p>Frame, lensa, softlens, dan perawatan lensa pilihan dari Yuiop. Konsultasi dan pesan langsung lewat WhatsApp.</p><div class="row"><a class="btn b-ac" href="#/produk" data-c="null">Lihat Produk</a><a class="btn b-wa wal" target="_blank" rel="noopener noreferrer">Chat WhatsApp</a></div></div>${img(ASET.hero,"Kacamata koleksi Yuiop","ph")}</section>
 <section class="sec"><h2>Kategori Produk</h2><p class="sub">Pilih kategori untuk langsung melihat produknya.</p><div class="cats">${Object.entries(CAT).map(([k,l])=>`<a class="cat" href="#/produk" data-c="${k}">${l}</a>`).join("")}</div></section>
