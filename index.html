@@ -71,9 +71,15 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .tc h3{font-size:1rem}
 .tc p{margin:0;font-size:.92rem}
 .st{color:#f59e0b;letter-spacing:.1em}
-.tp{display:grid;gap:.5rem;grid-template-columns:repeat(2,1fr)}
-.tp img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;cursor:zoom-in;background:var(--bg2)}
-.tp img:only-child{grid-column:1/-1;aspect-ratio:4/3}
+.cr{position:relative}
+.cr-t{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:12px;background:var(--bg2)}
+.cr-t::-webkit-scrollbar{display:none}
+.cr-t img{flex:0 0 100%;width:100%;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:center;cursor:zoom-in}
+.cr-b{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;border:0;background:rgba(0,0,0,.5);color:#fff;font-size:1.2rem;line-height:1;cursor:pointer}
+.cr-b.p{left:.5rem}.cr-b.n{right:.5rem}
+.cr-d{display:flex;justify-content:center;gap:.4rem;margin-top:.5rem}
+.cr-d i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.cr-d i.on{background:var(--ac)}
 .tpl{font-size:.75rem;color:var(--mut)}
 #lb{width:min(94vw,48rem);background:transparent;border:0;padding:0}
 #lb img{width:100%;max-height:85vh;object-fit:contain;border-radius:16px;cursor:zoom-out}
@@ -377,7 +383,13 @@ const TESTI=[
 {nama:"Anita Wulandari",kota:"Klaten",foto:"aset/testimoni/anita.jpg",rating:5,produk:"Lensa Progresif",teks:"Awalnya ragu pakai lensa progresif, tapi dibantu penyesuaian sampai nyaman. Terima kasih banyak."}
 ];
 const stars=n=>"★".repeat(n)+"☆".repeat(5-n);
-const tcard=t=>`<article class="tc"><div class="tc-h"><img class="av" src="${t.foto||PHU}" alt="Foto ${t.nama}" loading="lazy" onerror="this.onerror=null;this.src=PHU"><div><h3>${t.nama}</h3><span class="meta">${t.kota}</span></div></div><div class="st" role="img" aria-label="Rating ${t.rating} dari 5">${stars(t.rating)}</div>${t.fp&&t.fp.length?`<div class="tp">${t.fp.map((f,n)=>img(f,"Foto "+t.produk+" milik "+t.nama+" "+(n+1),"",'loading="lazy" data-z="1"')).join("")}</div><span class="tpl">Foto asli produk yang dibeli</span>`:""}<p>“${t.teks}”</p><span class="k">${t.produk}</span></article>`;
+const tcard=t=>{
+  const fs=[0,1,2].map(n=>(t.fp&&t.fp[n])||`aset/testimoni/${slug(t.nama)}-${n+1}.jpg`);
+  return `<article class="tc"><div class="tc-h"><img class="av" src="${t.foto||PHU}" alt="Foto ${t.nama}" loading="lazy" onerror="this.onerror=null;this.src=PHU"><div><h3>${t.nama}</h3><span class="meta">${t.kota}</span></div></div><div class="st" role="img" aria-label="Rating ${t.rating} dari 5">${stars(t.rating)}</div>
+  <div class="cr"><div class="cr-t">${fs.map((f,n)=>img(f,"Foto "+t.produk+" milik "+t.nama+" "+(n+1),"",'loading="lazy" data-z="1"')).join("")}</div>
+  <button type="button" class="cr-b p" data-cr="-1" aria-label="Foto sebelumnya">‹</button><button type="button" class="cr-b n" data-cr="1" aria-label="Foto berikutnya">›</button>
+  <div class="cr-d"><i class="on"></i><i></i><i></i></div></div>
+  <span class="tpl">Foto asli produk yang dibeli</span><p>“${t.teks}”</p><span class="k">${t.produk}</span></article>`};
 const testimoniPage=()=>`<h1 class="pt">Testimoni</h1><p class="sub">Cerita kepuasan pelanggan Yuiop.</p><div class="g3">${TESTI.map(tcard).join("")}</div><section class="sec" style="text-align:center;padding:2.5rem 1rem;border-radius:16px;background:var(--bg2)"><h2>Ingin merasakan pelayanan kami?</h2><p class="sub">Konsultasikan kebutuhan kacamata Anda bersama kami.</p><a class="btn b-wa wal" target="_blank" rel="noopener noreferrer">Konsultasi via WhatsApp</a></section>`;
 let cat=null,pending=null;
 
@@ -427,6 +439,7 @@ const isHome=()=>!location.hash.replace(/^#\/?/,"");
 document.addEventListener("click",e=>{
 const w=e.target.closest(".wal,.wf");
 if(w){e.preventDefault();$("#menu").classList.remove("open");openForm(w.dataset.p||"");return}
+const cb=e.target.closest("[data-cr]");if(cb){const t=cb.closest(".cr").querySelector(".cr-t");t.scrollBy({left:+cb.dataset.cr*t.clientWidth,behavior:"smooth"});return}
 const z=e.target.closest("[data-z]");if(z){$("#lbi").src=z.src;$("#lbi").alt=z.alt;$("#lb").showModal();return}
 const c=e.target.closest("[data-c]");if(c){cat=c.dataset.c=="null"?null:c.dataset.c;const l=$("#plist");if(l){l.innerHTML=list();$("#tabs").innerHTML=tabs()}}
 const s=e.target.closest("[data-s]");if(s){e.preventDefault();if(isHome())go(s.dataset.s);else{pending=s.dataset.s;location.hash="#/"}$("#menu").classList.remove("open")}
@@ -469,6 +482,7 @@ frm.addEventListener("submit",e=>{
   else{window.open(wa(order),"_blank","noopener");dlg.close()}});
 $("#fcancel").onclick=()=>dlg.close();
 $("#lb").addEventListener("click",()=>$("#lb").close());
+document.addEventListener("scroll",e=>{const t=e.target;if(!t.classList||!t.classList.contains("cr-t"))return;const i=Math.round(t.scrollLeft/t.clientWidth);t.parentNode.querySelectorAll(".cr-d i").forEach((d,n)=>d.classList.toggle("on",n==i))},true);
 dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
 $("#burger").onclick=()=>{const m=$("#menu");const o=m.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o)};
 $("#yr").textContent=new Date().getFullYear();
