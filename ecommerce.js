@@ -11,6 +11,7 @@ let user=null,role="customer",nama="";
 const cart=()=>{try{return JSON.parse(localStorage.getItem("cart")||"[]")}catch(_){return[]}};
 const save=c=>{try{localStorage.setItem("cart",JSON.stringify(c))}catch(_){}nav()};
 const go2=h=>{if(location.hash==h)route();else location.hash=h};
+const normWa=s=>{let n=String(s||"").replace(/\D/g,"");if(n.startsWith("0"))n="62"+n.slice(1);else if(n.startsWith("8"))n="62"+n;return n};
 
 async function me(){
   const {data:{session}}=await SB.auth.getSession();user=session?.user||null;role="customer";nama="";
@@ -38,14 +39,15 @@ function pKeranjang(){
   if(!c.length){app.innerHTML=H("Keranjang")+'<p>Keranjang masih kosong.</p><a class="btn b-ac" href="#/produk">Lihat produk</a>';return}
   const tot=c.reduce((a,x)=>a+x.p.harga*x.jumlah,0);
   const items=c.map(x=>`<div class="tag" style="margin-bottom:.75rem;flex-direction:row;align-items:center;justify-content:space-between"><div><b>${esc(x.p.nama)}</b><br><span class="meta">${rp(x.p.harga)}</span></div><div class="row" style="align-items:center"><input type="number" min="1" max="99" value="${x.jumlah}" data-q="${x.slug}" style="width:4.5rem;padding:.4rem;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--tx)"><button class="btn b-ln" data-a="rm" data-s="${x.slug}">Hapus</button></div></div>`).join("");
-  const form=user?`<form id="cf" class="xf" style="margin-top:0"><h3>Data pengiriman</h3><label>Nama<input name="nama" required value="${esc(nama)}"></label><label>Usia<input type="number" name="usia" min="1" max="120" required></label><label>Alamat<textarea name="alamat" rows="3" required></textarea></label><p class="meta" style="margin:0">Untuk lensa atau frame berlensa resep, biaya akhir dapat berbeda dan akan dikonfirmasi tim kami.</p><button class="btn b-ac">Buat pesanan</button></form>`:`<div class="tag"><h3>Login untuk checkout</h3><span class="meta">Masuk atau daftar dulu agar pesanan tercatat di akun Anda.</span><a class="btn b-ac" href="#/masuk">Masuk / Daftar</a></div>`;
+  const form=user?`<form id="cf" class="xf" style="margin-top:0"><h3>Data pengiriman</h3><label>Nama<input name="nama" required value="${esc(nama)}"></label><label>Usia<input type="number" name="usia" min="1" max="120" required></label><label>Nomor WhatsApp<input type="tel" name="wa" required inputmode="tel" autocomplete="tel" placeholder="08123456789" pattern="[0-9+ -]{9,16}"></label><label>Alamat<textarea name="alamat" rows="3" required></textarea></label><p class="meta" style="margin:0">Untuk lensa atau frame berlensa resep, biaya akhir dapat berbeda dan akan dikonfirmasi tim kami.</p><button class="btn b-ac">Buat pesanan</button></form>`:`<div class="tag"><h3>Login untuk checkout</h3><span class="meta">Masuk atau daftar dulu agar pesanan tercatat di akun Anda.</span><a class="btn b-ac" href="#/masuk">Masuk / Daftar</a></div>`;
   app.innerHTML=H("Keranjang","Periksa pesanan Anda sebelum checkout.")+`<div class="g2" style="align-items:start"><div>${items}<div class="price">Total: ${rp(tot)}</div></div>${form}</div>`;
   const cf=$("#cf");if(cf)cf.onsubmit=async e=>{
     e.preventDefault();const f=new FormData(cf),b=cf.querySelector("button");b.disabled=true;
     const {data,error}=await SB.rpc("buat_pesanan",{p_nama:f.get("nama").trim(),p_usia:+f.get("usia"),p_alamat:f.get("alamat").trim(),p_items:cart().map(x=>({slug:x.slug,jumlah:x.jumlah}))});
-    if(error){alert(error.message);b.disabled=false;return}
+        if(error){alert(error.message);b.disabled=false;return}
+    const w=await SB.rpc("simpan_wa",{p_order:data,p_wa:normWa(f.get("wa"))});
+    if(w.error)console.warn(w.error.message);
     save([]);pPay(data)}}
-
 async function pPay(id){
   const {data:o,error}=await SB.from("orders").select("*").eq("id",id).single();
   if(error||!o){app.innerHTML=H("Pesanan tidak ditemukan");return}
@@ -61,7 +63,7 @@ async function pPay(id){
     if(r.error){alert(r.error.message);$("#bs").disabled=false;return}
     alert("Bukti terkirim. Admin akan memverifikasi pembayaran Anda.");go2("#/akun")}}
 
-const oc=(o,adm,url)=>`<div class="tag" style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem"><b>Pesanan #${o.id}</b><span class="k">${ST[o.status]||o.status}</span></div><span class="meta">${new Date(o.created_at).toLocaleString("id-ID")}</span>${adm?`<span class="meta">${esc(o.nama)} · usia ${esc(o.usia)} · ${esc(o.alamat)}</span>`:""}<div>${(o.order_items||[]).map(i=>`${esc(i.nama_produk)} × ${i.jumlah}`).join("<br>")}</div><div class="price" style="font-size:1.1rem">${rp(o.total)}</div>${adm?`<div class="row" style="align-items:center"><select data-st="${o.id}" style="padding:.4rem;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--tx)">${Object.entries(ST).map(([k,l])=>`<option value="${k}"${k==o.status?" selected":""}>${l}</option>`).join("")}</select>${url?`<a class="btn b-ln" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Lihat bukti</a>`:""}</div>`:(o.status=="menunggu_pembayaran"?`<button class="btn b-wa" data-a="pay" data-o="${o.id}">Bayar / upload bukti</button>`:"")}</div>`;
+const oc=(o,adm,url)=>`<div class="tag" style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem"><b>Pesanan #${o.id}</b><span class="k">${ST[o.status]||o.status}</span></div><span class="meta">${new Date(o.created_at).toLocaleString("id-ID")}</span>${adm?`<span class="meta">${esc(o.nama)} · usia ${esc(o.usia)} · ${esc(o.alamat)}${o.wa?` · <a href="https://wa.me/${esc(o.wa)}" target="_blank" rel="noopener noreferrer" style="color:var(--ac);text-decoration:underline">WA ${esc(o.wa)}</a>`:""}</span>`:""}<div>${(o.order_items||[]).map(i=>`${esc(i.nama_produk)} × ${i.jumlah}`).join("<br>")}</div><div class="price" style="font-size:1.1rem">${rp(o.total)}</div>${adm?`<div class="row" style="align-items:center"><select data-st="${o.id}" style="padding:.4rem;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--tx)">${Object.entries(ST).map(([k,l])=>`<option value="${k}"${k==o.status?" selected":""}>${l}</option>`).join("")}</select>${url?`<a class="btn b-ln" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Lihat bukti</a>`:""}</div>`:(o.status=="menunggu_pembayaran"?`<button class="btn b-wa" data-a="pay" data-o="${o.id}">Bayar / upload bukti</button>`:"")}</div>`;
 
 async function pAkun(){
   if(!user)return pMasuk();
